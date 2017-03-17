@@ -3,8 +3,17 @@ import java.util.Random;
 
 public class TicTacToe {
 	public static Board board = new Board();
+	public static GameStats AIgs = new GameStats();
+	public static String name2;
+	public static String name;
+	public static int[] p1Stats = new int[3];
+	public static int[] p2Stats = new int[3];
 	public static void main(String[] args) throws InterruptedException {
 		Scanner sc = new Scanner(System.in);
+		helperMain(sc);
+		sc.close();
+	}
+	public static void helperMain(Scanner sc) throws InterruptedException{
 		int difficulty = Welcome(sc);
 		//0 represents human - human game
 		if(difficulty == 0){
@@ -12,15 +21,12 @@ public class TicTacToe {
 		}else{
 			AIGame(sc, difficulty);
 		}
-		sc.close();
 	}
-
+	
 	public static int Welcome(Scanner sc) throws InterruptedException{
 		int ret = 0;
-		System.out.print("Please enter your name, when finished, press enter ");
-		//		Scanner sc = new Scanner(System.in);
-		String name = sc.nextLine();
-		System.out.println("Welcome, " + name + ".");
+		
+		System.out.println("Welcome, player.");
 		Thread.sleep(500);
 		System.out.print("Please pick the mode: 1 for Human vs AI, 2 for Human vs Human: ");
 		if( getNum(2, "mode", sc) == 1 ){
@@ -28,10 +34,8 @@ public class TicTacToe {
 			System.out.print("Please enter the difficulty level: 1 for easy, 2 for medium"
 					+ " and 3 for hard: ");
 			ret = getNum(3, "level", sc);
-		}else{
-			System.out.print("Please enter your name, when finished, press enter ");
-			String name2 = sc.nextLine();
-			System.out.println("Welcome, " + name2 + ".");
+		}else{			
+			System.out.println("Welcome, player2.");
 		}
 		return ret;
 	}	
@@ -43,7 +47,7 @@ public class TicTacToe {
 		while(!valid){
 			if(!sc.hasNextInt()){
 				System.out.println(sc.nextLine() 
-						+ " is not an integer");
+						+ " is not an integer.");
 				System.out.println("Please input an integer between 1 and " + max);
 			}else{
 				number = sc.nextInt();
@@ -71,13 +75,14 @@ public class TicTacToe {
 			System.out.println("You have picked the medium level.");
 		}if(level == 3){
 			System.out.println("You have picked the hard level.");
+		}if(level == 4){
+			System.out.println("You have picked expert level");
 		}
 	}
 
 	public static void humanGame(Scanner sc) throws InterruptedException{
 
-		int[] p1Stats = new int[3];
-		int[] p2Stats = new int[3];
+		
 		Thread.sleep(500);
 		System.out.println("Player one, you are assigned checker o");
 		Thread.sleep(500);
@@ -110,10 +115,11 @@ public class TicTacToe {
 			p1Stats[1] ++;
 			p2Stats[1] ++;
 		}
-		System.out.println("Player 1 won: " + p1Stats[0] + "Player 1 tie: " + p1Stats[1] +
-				"Player 1 lose: " + p1Stats[2] );
-		System.out.println("Player 2 won: " + p1Stats[0] + "Player 2 tie: " + p1Stats[1] +
-				"Player 2 lose: " + p1Stats[2] );
+		System.out.println("Player 1 won: " + p1Stats[0] + " tie: " + p1Stats[1] +
+				" lose: " + p1Stats[2] );
+		System.out.println("Player 2 won: " + p2Stats[0] + " tie: " + p2Stats[1] +
+				" lose: " + p2Stats[2] );
+		startNewGame();
 	}
 
 
@@ -183,13 +189,19 @@ public class TicTacToe {
 		}
 		if(board.finish()){
 			System.out.println("The game is a tie");
+			AIgs.updateStats(0, 1, 0, difficulty);
 		}else{
 			if(board.checkWin()==1){
 				System.out.println("Congratulations, you win");
+				AIgs.updateStats(1, 0, 0, difficulty);
 			}else{
 				System.out.println("I win");
+				AIgs.updateStats(0, 0, 1, difficulty);
 			}
 		}
+		
+		AIgs.printStats();
+		startNewGame();
 	}
 
 	public static void playerPlay(Scanner sc, char checker){
@@ -207,4 +219,21 @@ public class TicTacToe {
 		}
 		board.setPoint(i, j, checker);
 	}
+	
+	public static void startNewGame() throws InterruptedException{
+		System.out.println("Do you want to play again?");
+		System.out.println("Press 'y' to start again or 'n' to quit");
+		Scanner sc = new Scanner(System.in);
+		String c = sc.next();
+		while(!(c.equals("y")||c.equals("n"))){
+			System.out.println("Invalid input, please try again");
+			c = sc.next();
+		}
+		if(c.equals("y")){
+			helperMain(sc);
+		}else{
+			System.out.println("Thanks for playing, goodbye");
+		}
+		sc.close();
+	}	
 }
