@@ -30,10 +30,10 @@ public class TicTacToe {
 		System.out.print("Player1, Please enter your name: ");
 		name = sc.next();
 		System.out.printf("Welcome, %s.\n", name);
-		Thread.sleep(500);
+		Thread.sleep(200);
 		System.out.print("Please pick the mode: 1 for Human vs AI, 2 for Human vs Human: ");
 		if( getNum(2, "mode", sc) == 1 ){
-			Thread.sleep(500);		
+			Thread.sleep(200);		
 			System.out.print("Please enter the difficulty level: 1 for very easy, 2 for simple,"
 					+ " 3 for medium, 4 for hard and 5 for expert: ");
 			ret = getNum(5, "level", sc);
@@ -59,7 +59,7 @@ public class TicTacToe {
 				number = sc.nextInt();
 				if( number < 1 || number > max){
 					System.out.println(number + " is not a valid " + category + ".");
-					System.out.println("Please input the " + category + " again(The integer should between 1 and " 
+					System.out.print("Please input the " + category + " again (The integer should between 1 and " 
 							+ max +"): ");
 
 				}else{
@@ -91,11 +91,11 @@ public class TicTacToe {
 	public static void humanGame(Scanner sc) throws InterruptedException{
 
 		
-		Thread.sleep(500);
+		Thread.sleep(200);
 		System.out.printf("%s, you are assigned checker o.\n", name);
-		Thread.sleep(500);
+		Thread.sleep(200);
 		System.out.printf("%s, you are assignee checker x.\n", name2);
-		Thread.sleep(500);
+		Thread.sleep(200);
 		board.initialBoard();
 		board.printBoard();
 
@@ -191,13 +191,13 @@ public class TicTacToe {
 			//Human plays first
 			playerPlay(sc, 'o');
 			board.printBoard();
-			Thread.sleep(500);
+			Thread.sleep(200);
 		}
 		while(!board.finish()&&board.checkWin()==0){
-			Thread.sleep(500);
+			Thread.sleep(200);
 			comp.AIPlay(difficulty, board);
 
-			Thread.sleep(500);
+			Thread.sleep(200);
 			board.printBoard();
 			if(board.finish()||board.checkWin()!=0){
 				break;
@@ -212,7 +212,7 @@ public class TicTacToe {
 			AIgs.updateStats(0, 1, 0, difficulty);
 		}else{
 			if(board.checkWin()==1){
-				System.out.printf("Congratulations, %s! you win!\n" + name);
+				System.out.printf("Congratulations, " + name + "! you win!\n");
 				AIgs.updateStats(1, 0, 0, difficulty);
 			}else{
 				System.out.println("I win!");

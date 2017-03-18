@@ -111,6 +111,12 @@ public class AIPlayer {
 					}
 				}
 			}
+		}else if(board.countVacant() == 6){
+			if(board.getSpecChar(1, 1)!='.'&&board.getSpecChar(2, 2)!='.'&&board.getSpecChar(0, 0)!='.'){
+				board.setPoint(1, 2, 'x');
+			}else{
+				hardMode(board);
+			}
 		}else{
 			hardMode(board);
 		}
