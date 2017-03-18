@@ -31,9 +31,9 @@ public class TicTacToe {
 		System.out.print("Please pick the mode: 1 for Human vs AI, 2 for Human vs Human: ");
 		if( getNum(2, "mode", sc) == 1 ){
 			Thread.sleep(500);		
-			System.out.print("Please enter the difficulty level: 1 for easy, 2 for medium"
-					+ " and 3 for hard: ");
-			ret = getNum(3, "level", sc);
+			System.out.print("Please enter the difficulty level: 1 for easy, 2 for medium,"
+					+ " 3 for hard and 4 for expert: ");
+			ret = getNum(4, "level", sc);
 		}else{			
 			System.out.println("Welcome, player2.");
 		}
@@ -48,7 +48,7 @@ public class TicTacToe {
 			if(!sc.hasNextInt()){
 				System.out.println(sc.nextLine() 
 						+ " is not an integer.");
-				System.out.println("Please input an integer between 1 and " + max);
+				System.out.print("Please input an integer between 1 and " + max + ": ");
 			}else{
 				number = sc.nextInt();
 				if( number < 1 || number > max){
@@ -59,7 +59,7 @@ public class TicTacToe {
 				}else{
 					valid = true;
 				}
-				if(max == 3 && category.equals("level")){
+				if(max == 4 ){
 					printDif(number);
 				}
 			}
@@ -171,7 +171,8 @@ public class TicTacToe {
 		board.printBoard();
 		if(!AIfirst){
 			//Human plays first
-			playerPlay(sc, 'o');			
+			playerPlay(sc, 'o');
+			board.printBoard();
 		}
 		while(!board.finish()&&board.checkWin()==0){
 			Thread.sleep(500);
@@ -222,11 +223,11 @@ public class TicTacToe {
 	
 	public static void startNewGame() throws InterruptedException{
 		System.out.println("Do you want to play again?");
-		System.out.println("Press 'y' to start again or 'n' to quit");
+		System.out.print("Press 'y' to start again or 'n' to quit: ");
 		Scanner sc = new Scanner(System.in);
 		String c = sc.next();
 		while(!(c.equals("y")||c.equals("n"))){
-			System.out.println("Invalid input, please try again");
+			System.out.println("Invalid input, please input y or n to try again");
 			c = sc.next();
 		}
 		if(c.equals("y")){

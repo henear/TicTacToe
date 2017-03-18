@@ -11,7 +11,7 @@ public class Board {
 	}
 	
 	public void printBoard(){
-		System.out.println("current board is");
+		System.out.println("Current board is: ");
 		for(int i = 0; i < 3;i ++){
 			for(int j = 0; j < 3; j++){
 				System.out.print(board[i][j] + " ");
@@ -25,7 +25,7 @@ public class Board {
 	}
 	
 	public boolean getVacant(int i, int j){
-		return board[i-1][j-1] =='.';
+		return board[i-1][j-1] == '.';
 	}
 	
 	public char getSpecChar(int i, int j){

@@ -14,9 +14,10 @@ public class GameStats {
 	}
 	
 	public void printStats(){
-		for(int i = 1; i < 4;i ++){
-			System.out.println("Level: " + i + " Win: " + win[i-1] + " Tie: " + tie[i-1]
-					+ " Lose: " + lose[i-1] + " Winning rate is " + rate[i-1]);			
+		for(int i = 1; i <= 4;i ++){
+			System.out.print("Level: " + i + " Win: " + win[i-1] + " Tie: " + tie[i-1]
+					+ " Lose: " + lose[i-1]);
+			System.out.printf(" Winning rate is %3.2f\n", rate[i-1]);			
 		}
 	}
 }
