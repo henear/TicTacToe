@@ -188,7 +188,7 @@ public class TicTacToe {
 			playerPlay(sc, 'o');
 			board.printBoard();
 		}
-		if(board.finish()){
+		if(board.finish()&&board.checkWin()==0){
 			System.out.println("The game is a tie");
 			AIgs.updateStats(0, 1, 0, difficulty);
 		}else{
