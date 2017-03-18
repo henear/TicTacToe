@@ -1,24 +1,29 @@
 import java.util.Random;
 public class AIPlayer {
 	int difficulty;
-	
+	int[] loc = new int[]{-1,-1};
 	Random r = new Random();
+
 	public void AIPlay(int difficulty, Board board){
 		this.difficulty = difficulty;
-		
+
 		if(difficulty == 1){
-			easyMode(board);
+			veryEasyMode(board);
 		}else if(difficulty == 2){
 			// Check if continuous 2 exists, if yes and next is vacant, take it
 			// If not, take a random vacant place
-			
+
+			simpleMode(board);
+		}else if(difficulty == 3){
 			mediumMode(board);
-		}else{
+		}else if(difficulty == 4){
 			hardMode(board);
+		}else{
+			expertMode(board);
 		}
 	}
-	
-	public void easyMode(Board board){
+
+	public void veryEasyMode(Board board){
 		int i = r.nextInt(3)+1;
 		int j = r.nextInt(3)+1;
 		while(!board.getVacant(i, j)){
@@ -28,12 +33,22 @@ public class AIPlayer {
 		board.setPoint(i, j, 'x');
 	}
 
-	public void mediumMode(Board board){
+	public void simpleMode(Board board){
 		//AIboard = b.board;
-		
+
 		boolean temp = medHardHelper(board, 'x');
 		if(!temp){
-			easyMode(board);
+			veryEasyMode(board);
+		}
+	}
+
+	public void mediumMode(Board board){
+		boolean temp = medHardHelper(board, 'x');
+		if(!temp){
+			boolean temp2 = medHardHelper(board, 'o');
+			if(!temp2){
+				veryEasyMode(board);
+			}
 		}
 	}
 
@@ -42,42 +57,86 @@ public class AIPlayer {
 		if(!temp){
 			boolean temp2 = medHardHelper(board, 'o');
 			if(!temp2){
-				easyMode(board);
-			}
-		}
-	}
-	
-	public void expertMode(Board board){
-		boolean temp = medHardHelper(board, 'x');
-		if(!temp){
-			boolean temp2 = medHardHelper(board, 'o');
-			if(!temp2){
 				//Check if any more move can produce double 2, If yes, pick that point
 				//If not, check if user can make double 2, If yes, pick that point
 				boolean temp3 = doubleTwo('x', board);
-				if(!temp3){
-					doubleTwo('o', board);
+				if(temp3){
+					board.setPoint(loc[0]+1, loc[1]+1, 'x');
+				}else{
+					boolean temp4 = doubleTwo('o', board);
+					if(temp4){
+						board.setPoint(loc[0]+1, loc[1]+1, 'x');
+					}else{
+						veryEasyMode(board);
+					}
 				}
-				easyMode(board);
 			}
 		}
 	}
-	
+
+	public void expertMode(Board board){
+		char[][] mycurr = copyBoard(board);
+		if(board.isEmpty()){
+			board.setPoint(1, 1, 'x');
+		}else if(board.countVacant() == 8){
+			if(mycurr[0][0] == 'o'|| mycurr[0][2] == 'o' || mycurr[2][0] == 'o'|| mycurr[2][2] == 'o'){
+				board.setPoint(2, 2, 'x');
+			}else if(mycurr[1][1] == 'o' ){
+				board.setPoint(1, 1, 'x');
+			}else{
+				board.setPoint(2, 2, 'x');
+			}
+		}else if(board.countVacant() == 7){
+			
+			if(board.board[0][0] == 'x'){
+				if(mycurr[1][1] == 'o'){
+					board.setPoint(3, 3, 'x');
+				}else{
+					//board[1][1] is not occupied
+					if(board.getSpecChar(1, 0) =='o' ){
+						board.setPoint(1, 3, 'x');
+					}else if(board.getSpecChar(0, 1) == 'o'){
+						board.setPoint(3, 1, 'x');
+					}else if(board.getSpecChar(0, 2) == 'o'){
+						board.setPoint(3, 1, 'x');						
+					}else if(board.getSpecChar(2, 0) == 'o'){
+						board.setPoint(1, 3, 'x');						
+					}else if(board.getSpecChar(1, 2) == 'o'){						
+						board.setPoint(3, 1, 'x');
+					}else if(board.getSpecChar(2, 1) == 'o'){						
+						board.setPoint(1, 3, 'x');
+					}else{
+						//mycurr[2][2] is o
+						board.setPoint(1, 3, 'x');
+					}
+				}
+			}
+		}else{
+			hardMode(board);
+		}
+	}
 	public boolean doubleTwo(char checker, Board board){
 		char[][] tempBoard = copyBoard(board);
+
 		for(int i = 0; i < 9; i++){
 			int locx = i / 3;
 			int locy = i % 3;
 			if(tempBoard[locx][locy]=='.'){
 				tempBoard[locx][locy] = checker;
-				Board tempB = new Board();
-				tempB.board = tempBoard;
-				countTwos(tempBoard, checker);
+				boolean tmp = countTwos(tempBoard, checker);
+//				System.out.println("temp is " + tmp);
+				tempBoard[locx][locy] = '.';
+				if(tmp){
+
+					loc[0] = locx;
+					loc[1] = locy;
+					return tmp;
+				}
 			}
 		}
 		return false;
 	}
-	
+
 	public boolean countTwos(char[][] board, char checker){
 		boolean temp = false;
 		int count = 0;
@@ -106,7 +165,7 @@ public class AIPlayer {
 			}
 		}
 		if(!temp){
-			System.out.println("In 3 block");
+
 			if(board[0][0] == checker && board[1][1] == checker && board[2][2] == '.'){
 				count ++;
 			}
@@ -116,21 +175,21 @@ public class AIPlayer {
 			if(board[0][0] == '.' && board[1][1] == checker && board[2][2] == checker){
 				count ++;
 			}				
-			
+
 			if(board[0][2] == checker && board[1][1] == checker && board[2][0] == '.'){
 				count ++;
 			}
 			if(board[0][2] == checker && board[1][1] == '.' && board[2][0] == checker){
 				count ++;
 			}
-			
+
 			if(board[0][2] == '.' && board[1][1] == checker && board[2][0] == checker){
 				count ++;
 			}				
 		}
 		return count >= 2;
 	}
-	
+
 	public char[][] copyBoard(Board board){
 		char[][] curr = new char[3][3];
 		for(int i = 0; i < 3; i++){
@@ -140,10 +199,10 @@ public class AIPlayer {
 		}
 		return curr;
 	}
-	
+
 	public boolean medHardHelper(Board board, char checker){
 		boolean temp = false;
-		
+
 		for(int i = 0; i < 3; i++){
 			if(board.getSpecChar(i, 0) == checker && board.getSpecChar(i, 1) == checker && 
 					board.getSpecChar(i, 2)== '.'){

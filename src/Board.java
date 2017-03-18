@@ -68,6 +68,29 @@ public class Board {
 		}
 	}
 	
+	public boolean isEmpty(){		
+		for(int i = 0; i < 3; i++){
+			for(int j = 0; j < 3; j++){
+				if(board[i][j] == 'o' || board[i][j] == 'x'){
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
+	public int countVacant(){
+		int count = 0;
+		for(int i = 0; i < 3; i++){
+			for(int j = 0; j < 3; j++){
+				if(board[i][j] == '.'){
+					count++;
+				}
+			}
+		}
+		return count;
+	}
+	
 	public boolean finish(){
 		boolean b = true;
 		for(int i = 0; i < 3 && b; i++){
