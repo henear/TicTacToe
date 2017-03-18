@@ -195,6 +195,7 @@ public class TicTacToe {
 		}
 		while(!board.finish()&&board.checkWin()==0){
 			Thread.sleep(200);
+			System.out.println("AI plays for this round");
 			comp.AIPlay(difficulty, board);
 
 			Thread.sleep(200);
@@ -230,6 +231,7 @@ public class TicTacToe {
 		int i = getNum(3, "rows", sc);
 		System.out.print("Please enter columns you want to insert into: ");
 		int j = getNum(3, "columns", sc);
+		
 		while(!board.getVacant(i, j)){
 			System.out.println("It is occupied, please enter the coordinate again");
 			System.out.print("Please enter rows you want to insert into: ");
