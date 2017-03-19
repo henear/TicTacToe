@@ -1,4 +1,5 @@
 import java.util.Random;
+
 public class AIPlayer {
 	int difficulty;
 	int[] loc = new int[]{-1,-1};
@@ -56,14 +57,17 @@ public class AIPlayer {
 		boolean temp = medHardHelper(board, 'x');
 		if(!temp){
 			boolean temp2 = medHardHelper(board, 'o');
+			
 			if(!temp2){
 				//Check if any more move can produce double 2, If yes, pick that point
 				//If not, check if user can make double 2, If yes, pick that point
 				boolean temp3 = doubleTwo('x', board);
+				
 				if(temp3){
 					board.setPoint(loc[0]+1, loc[1]+1, 'x');
 				}else{
 					boolean temp4 = doubleTwo('o', board);
+					
 					if(temp4){
 						board.setPoint(loc[0]+1, loc[1]+1, 'x');
 					}else{
@@ -79,7 +83,8 @@ public class AIPlayer {
 		if(board.isEmpty()){
 			board.setPoint(1, 1, 'x');
 		}else if(board.countVacant() == 8){
-			if(mycurr[0][0] == 'o'|| mycurr[0][2] == 'o' || mycurr[2][0] == 'o'|| mycurr[2][2] == 'o'){
+			if(mycurr[0][0] == 'o'|| mycurr[0][2] == 'o' || 
+			   mycurr[2][0] == 'o'|| mycurr[2][2] == 'o'){
 				board.setPoint(2, 2, 'x');
 			}else if(mycurr[1][1] == 'o' ){
 				board.setPoint(1, 1, 'x');
@@ -112,6 +117,7 @@ public class AIPlayer {
 				}
 			}
 		}else if(board.countVacant() == 6){
+			
 			if(board.getSpecChar(0, 0)=='o'&&board.getSpecChar(1, 1)=='o'&&board.getSpecChar(2, 2)=='x'){
 				board.setPoint(1, 3, 'x');
 			}else if(board.getSpecChar(0, 0)=='o'&&board.getSpecChar(1, 1)=='x'&&board.getSpecChar(2, 2)=='o'){
@@ -125,6 +131,7 @@ public class AIPlayer {
 			hardMode(board);
 		}
 	}
+	
 	public boolean doubleTwo(char checker, Board board){
 		char[][] tempBoard = copyBoard(board);
 
@@ -197,6 +204,7 @@ public class AIPlayer {
 				count ++;
 			}				
 		}
+		
 		return count >= 2;
 	}
 
@@ -207,6 +215,7 @@ public class AIPlayer {
 				curr[i][j] = board.board[i][j];
 			}
 		}
+		
 		return curr;
 	}
 
@@ -233,6 +242,7 @@ public class AIPlayer {
 				break;
 			}
 		}
+		
 		if(!temp){			
 			for(int i = 0; i < 3; i++){
 				if(board.getSpecChar(0, i) == checker && board.getSpecChar(1, i) == checker && 
@@ -255,6 +265,7 @@ public class AIPlayer {
 				}
 			}
 		}
+		
 		if(!temp){
 			if(board.getSpecChar(0, 0) == '.' && board.getSpecChar(1, 1) == checker && 
 					board.getSpecChar(2, 2)== checker){
@@ -287,6 +298,7 @@ public class AIPlayer {
 				temp = true;
 			}
 		}
+		
 		return temp;
 	}
 }
