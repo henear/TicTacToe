@@ -112,8 +112,12 @@ public class AIPlayer {
 				}
 			}
 		}else if(board.countVacant() == 6){
-			if(board.getSpecChar(1, 1)!='.'&&board.getSpecChar(2, 2)!='.'&&board.getSpecChar(0, 0)!='.'){
+			if(board.getSpecChar(0, 0)=='o'&&board.getSpecChar(1, 1)=='o'&&board.getSpecChar(2, 2)=='x'){
 				board.setPoint(1, 3, 'x');
+			}else if(board.getSpecChar(0, 0)=='o'&&board.getSpecChar(1, 1)=='x'&&board.getSpecChar(2, 2)=='o'){
+				board.setPoint(1, 2, 'x');
+			}else if(board.getSpecChar(0, 0)=='x'&&board.getSpecChar(1, 1)=='o'&&board.getSpecChar(2, 2)=='o'){
+				board.setPoint(3, 1, 'x');
 			}else{
 				hardMode(board);
 			}
