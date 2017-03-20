@@ -124,6 +124,12 @@ public class AIPlayer {
 				board.setPoint(1, 2, 'x');
 			}else if(board.getSpecChar(0, 0)=='x'&&board.getSpecChar(1, 1)=='o'&&board.getSpecChar(2, 2)=='o'){
 				board.setPoint(3, 1, 'x');
+			}else if(board.getSpecChar(0, 2)=='o'&&board.getSpecChar(1, 1)=='o'&&board.getSpecChar(2, 0)=='x'){
+				board.setPoint(1, 1, 'x');
+			}else if(board.getSpecChar(0, 2)=='o'&&board.getSpecChar(1, 1)=='x'&&board.getSpecChar(2, 0)=='o'){
+				board.setPoint(2, 3, 'x');
+			}else if(board.getSpecChar(0, 2)=='x'&&board.getSpecChar(1, 1)=='o'&&board.getSpecChar(2, 0)=='o'){
+				board.setPoint(3, 3, 'x');
 			}else{
 				hardMode(board);
 			}
